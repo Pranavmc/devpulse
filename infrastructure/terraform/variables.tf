@@ -43,13 +43,13 @@ variable "public_subnet_cidrs" {
 variable "eks_cluster_version" {
   description = "Kubernetes version for EKS"
   type        = string
-  default     = "1.29"
+  default     = "1.32"
 }
 
 variable "eks_node_instance_type" {
   description = "Instance type for EKS worker nodes"
   type        = string
-  default     = "t3.medium"
+  default     = "t3.small"
 }
 
 variable "eks_node_min_size" {
@@ -61,11 +61,11 @@ variable "eks_node_min_size" {
 variable "eks_node_max_size" {
   description = "Maximum size of the node group"
   type        = number
-  default     = 3
+  default     = 2
 }
 
 variable "eks_node_desired_size" {
   description = "Desired size of the node group"
   type        = number
-  default     = 2
+  default     = 1
 }
