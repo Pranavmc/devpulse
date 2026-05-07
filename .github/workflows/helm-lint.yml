@@ -1,0 +1,41 @@
+name: Helm Chart Lint
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'infrastructure/helm/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'infrastructure/helm/**'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: '3.14.0'
+
+      - name: Helm lint (default values)
+        run: helm lint infrastructure/helm/devpulse
+
+      - name: Helm lint (dev values)
+        run: |
+          helm lint infrastructure/helm/devpulse \
+            -f infrastructure/helm/devpulse/values-dev.yaml
+
+      - name: Helm lint (prod values)
+        run: |
+          helm lint infrastructure/helm/devpulse \
+            -f infrastructure/helm/devpulse/values-prod.yaml
+
+      - name: Helm template dry-run
+        run: |
+          helm template devpulse infrastructure/helm/devpulse \
+            --dry-run > /dev/null
