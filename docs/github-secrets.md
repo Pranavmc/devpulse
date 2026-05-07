@@ -15,3 +15,4 @@ The following secrets must be configured in your GitHub repository for the CI/CD
 2. Settings → Secrets and variables → Actions
 3. Click "New repository secret"
 4. Add each secret above
+    
