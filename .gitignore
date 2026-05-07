@@ -1,25 +1,33 @@
 # Dependencies
-node_modules/
+**/node_modules/
 
 # Environment files
-.env
-.env.local
-.env.*.local
-
-# Build artifacts
-dist/
-build/
+**/.env
+**/.env.*
+!**/.env.example
 
 # Logs
-*.log
+**/logs/
+**/*.log
 npm-debug.log*
 
-# OS files
+# OS
 .DS_Store
 Thumbs.db
+
+# Docker
+**/.dockerignore
 
 # IDE
 .vscode/
 .idea/
-*.swp
-*.swo
+
+# Test coverage
+**/coverage/
+**/.nyc_output/
+
+# Terraform state (for Phase 5)
+infrastructure/terraform/.terraform/
+infrastructure/terraform/*.tfstate
+infrastructure/terraform/*.tfstate.backup
+infrastructure/terraform/.terraform.lock.hcl
