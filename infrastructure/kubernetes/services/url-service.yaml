@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: url-service
+  namespace: devpulse
+  labels:
+    app: url-service
+spec:
+  type: ClusterIP
+  selector:
+    app: url-service
+  ports:
+    - port: 3002
+      targetPort: 3002
+      protocol: TCP

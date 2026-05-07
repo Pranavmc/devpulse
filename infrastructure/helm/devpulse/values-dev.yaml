@@ -1,0 +1,35 @@
+authService:
+  replicaCount: 1
+  resources:
+    requests:
+      memory: "64Mi"
+      cpu: "50m"
+    limits:
+      memory: "128Mi"
+      cpu: "125m"
+
+urlService:
+  replicaCount: 1
+  resources:
+    requests:
+      memory: "64Mi"
+      cpu: "50m"
+    limits:
+      memory: "128Mi"
+      cpu: "125m"
+
+analyticsService:
+  replicaCount: 1
+  resources:
+    requests:
+      memory: "64Mi"
+      cpu: "50m"
+    limits:
+      memory: "128Mi"
+      cpu: "125m"
+
+ingress:
+  host: devpulse-dev.local
+
+hpa:
+  maxReplicas: 3

@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-service
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    {{- include "devpulse.labels" . | nindent 4 }}
+    app: auth-service
+spec:
+  replicas: {{ .Values.authService.replicaCount }}
+  selector:
+    matchLabels:
+      app: auth-service
+  template:
+    metadata:
+      labels:
+        {{- include "devpulse.selectorLabels" . | nindent 8 }}
+        app: auth-service
+    spec:
+      containers:
+        - name: auth-service
+          image: "{{ .Values.authService.image.repository }}:{{ .Values.authService.image.tag }}"
+          imagePullPolicy: {{ .Values.authService.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.authService.port }}
+          env:
+            - name: PORT
+              value: {{ .Values.authService.port | quote }}
+            - name: AUTH_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: devpulse-secrets
+                  key: POSTGRES_URL
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: devpulse-secrets
+                  key: JWT_SECRET
+          resources:
+            {{- toYaml .Values.authService.resources | nindent 12 }}
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.authService.port }}
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.authService.port }}
+            initialDelaySeconds: 10
+            periodSeconds: 5

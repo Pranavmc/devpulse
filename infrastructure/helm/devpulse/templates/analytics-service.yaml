@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: analytics-service
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    {{- include "devpulse.labels" . | nindent 4 }}
+    app: analytics-service
+spec:
+  type: ClusterIP
+  selector:
+    app: analytics-service
+  ports:
+    - port: {{ .Values.analyticsService.port }}
+      targetPort: {{ .Values.analyticsService.port }}
+      protocol: TCP

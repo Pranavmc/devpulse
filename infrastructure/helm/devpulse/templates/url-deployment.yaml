@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: url-service
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    {{- include "devpulse.labels" . | nindent 4 }}
+    app: url-service
+spec:
+  replicas: {{ .Values.urlService.replicaCount }}
+  selector:
+    matchLabels:
+      app: url-service
+  template:
+    metadata:
+      labels:
+        {{- include "devpulse.selectorLabels" . | nindent 8 }}
+        app: url-service
+    spec:
+      containers:
+        - name: url-service
+          image: "{{ .Values.urlService.image.repository }}:{{ .Values.urlService.image.tag }}"
+          imagePullPolicy: {{ .Values.urlService.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.urlService.port }}
+          env:
+            - name: PORT
+              value: {{ .Values.urlService.port | quote }}
+            - name: MONGO_URI
+              valueFrom:
+                secretKeyRef:
+                  name: devpulse-secrets
+                  key: MONGO_URI
+            - name: REDIS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: devpulse-secrets
+                  key: REDIS_URL
+            - name: AUTH_SERVICE_URL
+              value: "http://auth-service:{{ .Values.authService.port }}"
+            - name: KAFKA_BROKER
+              value: {{ .Values.kafka.broker | quote }}
+            - name: BASE_URL
+              value: "http://localhost:{{ .Values.urlService.port }}"
+            - name: KAFKAJS_NO_PARTITIONER_WARNING
+              value: "1"
+          resources:
+            {{- toYaml .Values.urlService.resources | nindent 12 }}
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.urlService.port }}
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.urlService.port }}
+            initialDelaySeconds: 10
+            periodSeconds: 5

@@ -1,0 +1,68 @@
+global:
+  namespace: devpulse
+  environment: production
+
+authService:
+  replicaCount: 2
+  image:
+    repository: devpulse-auth-service
+    tag: latest
+    pullPolicy: IfNotPresent
+  port: 3001
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+    limits:
+      memory: "256Mi"
+      cpu: "250m"
+
+urlService:
+  replicaCount: 2
+  image:
+    repository: devpulse-url-service
+    tag: latest
+    pullPolicy: IfNotPresent
+  port: 3002
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+    limits:
+      memory: "256Mi"
+      cpu: "250m"
+
+analyticsService:
+  replicaCount: 2
+  image:
+    repository: devpulse-analytics-service
+    tag: latest
+    pullPolicy: IfNotPresent
+  port: 3003
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+    limits:
+      memory: "256Mi"
+      cpu: "250m"
+
+ingress:
+  enabled: true
+  host: devpulse.local
+  className: nginx
+
+hpa:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  cpuUtilization: 70
+
+secrets:
+  jwtSecret: superSecretKeyForDevPulse2024ChangeInProd
+  postgresUrl: postgresql://devpulse:devpulse123@postgres:5432/devpulse
+  mongoUri: mongodb://mongo:27017/urldb
+  redisUrl: redis://redis:6379
+
+kafka:
+  broker: kafka:9092

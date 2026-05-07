@@ -1,0 +1,36 @@
+authService:
+  replicaCount: 3
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "200m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+
+urlService:
+  replicaCount: 5
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "200m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+
+analyticsService:
+  replicaCount: 3
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "200m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+
+ingress:
+  host: devpulse.com
+
+hpa:
+  maxReplicas: 20
+  cpuUtilization: 60

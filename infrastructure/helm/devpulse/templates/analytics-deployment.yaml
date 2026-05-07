@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: analytics-service
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    {{- include "devpulse.labels" . | nindent 4 }}
+    app: analytics-service
+spec:
+  replicas: {{ .Values.analyticsService.replicaCount }}
+  selector:
+    matchLabels:
+      app: analytics-service
+  template:
+    metadata:
+      labels:
+        {{- include "devpulse.selectorLabels" . | nindent 8 }}
+        app: analytics-service
+    spec:
+      containers:
+        - name: analytics-service
+          image: "{{ .Values.analyticsService.image.repository }}:{{ .Values.analyticsService.image.tag }}"
+          imagePullPolicy: {{ .Values.analyticsService.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.analyticsService.port }}
+          env:
+            - name: PORT
+              value: {{ .Values.analyticsService.port | quote }}
+            - name: ANALYTICS_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: devpulse-secrets
+                  key: POSTGRES_URL
+            - name: AUTH_SERVICE_URL
+              value: "http://auth-service:{{ .Values.authService.port }}"
+            - name: KAFKA_BROKER
+              value: {{ .Values.kafka.broker | quote }}
+          resources:
+            {{- toYaml .Values.analyticsService.resources | nindent 12 }}
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.analyticsService.port }}
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.analyticsService.port }}
+            initialDelaySeconds: 10
+            periodSeconds: 5
