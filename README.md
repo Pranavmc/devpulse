@@ -157,7 +157,13 @@ devpulse/
 
 ![kubectl Pods](screenshots/kubectl-pods.png)
 
+![kubectl Monitoring Pods](screenshots/kubectl-pods-monitoring.png)
+
+![kubectl Services](screenshots/kubectl-svc.png)
+
 ![Helm Releases](screenshots/helm-releases.png)
+
+![Helm List](screenshots/helm-list.png)
 
 ### CI/CD and Observability
 
@@ -168,6 +174,8 @@ devpulse/
 ![Grafana Node Exporter Dashboard](screenshots/grafana-node.png)
 
 ![Prometheus Targets](screenshots/prometheus-targets.png)
+
+![Prometheus Query](screenshots/prometheus-query.png)
 
 ### Infrastructure and Local Development
 
@@ -306,8 +314,8 @@ Estimated total for a small learning/demo environment:
 
 **Pranav M C**
 
-- GitHub: [https://github.com/your-github-username](https://github.com/your-github-username)
-- LinkedIn: [https://www.linkedin.com/in/your-linkedin-profile](https://www.linkedin.com/in/your-linkedin-profile)
+- GitHub: [https://github.com/Pranavmc](https://github.com/Pranavmc)
+- LinkedIn: [https://www.linkedin.com/in/pranavchougale07/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BgOvFxkUmS9WTm16%2BX3ZDYw%3D%3D]https://www.linkedin.com/in/pranavchougale07/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BgOvFxkUmS9WTm16%2BX3ZDYw%3D%3D)
 
 ---
 
